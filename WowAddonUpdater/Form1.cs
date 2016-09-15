@@ -51,8 +51,21 @@ namespace WowAddonUpdater
                 foreach (var item in settings)
                 {
                     dynamic dy = JsonConvert.DeserializeObject(item);
-                    string isUpdateString = dy.UpdateOnStartup;
-                    cbUpdateOnStart.Checked = Convert.ToBoolean(isUpdateString);
+                    if (item.Contains("UpdateOnStartup"))
+                    {
+                        string isUpdateString = dy.UpdateOnStartup;
+                        cbUpdateOnStart.Checked = Convert.ToBoolean(isUpdateString);
+                    }
+                    if (item.Contains("ZipFileLocation"))
+                    {
+                        tbSelectedFolder.Text = ((string)dy.ZipFileLocation).Replace('/', '\\');
+                    }
+                    if (item.Contains("CloseWhenDone"))
+                    {
+                        string isCloseWhenDone = dy.CloseWhenDone;
+                        cbCloseOnFinish.Checked = Convert.ToBoolean(isCloseWhenDone);
+                    }
+                    
                 }
             }
 
@@ -141,7 +154,7 @@ namespace WowAddonUpdater
                         string addonSiteText = GetWebText(addonSiteUrl);
                         string linkText = addonSiteText.Substring(addonSiteText.IndexOf("Recent files"), 400);
                         linkText = linkText.Substring(linkText.IndexOf("<a href=\"") + 9);
-                        string temp = linkText.Substring(0, linkText.IndexOf(">") - linkText.IndexOf("<a href=\"") - 2);
+                        string temp = linkText.Substring(0, linkText.IndexOf(">") - 2);
                         //user-action-download
                         addonSiteText = GetWebText("https://www.wowace.com" + temp);
                         linkText = addonSiteText.Substring(addonSiteText.IndexOf("user-action-download"), 400);
@@ -178,7 +191,7 @@ namespace WowAddonUpdater
                         string addonSiteText = GetWebText(addonSiteUrl);
                         string linkText = addonSiteText.Substring(addonSiteText.IndexOf("Recent files"), 400);
                         linkText = linkText.Substring(linkText.IndexOf("<a href=\"") + 9);
-                        string temp = linkText.Substring(0, linkText.IndexOf(">") - linkText.IndexOf("<a href=\"") - 2);
+                        string temp = linkText.Substring(0, linkText.IndexOf(">") - 2);
                         addonSiteText = GetWebText("https://wow.curseforge.com" + temp);
                         linkText = addonSiteText.Substring(addonSiteText.IndexOf("<dt>Filename</dt>"), 400);
                         linkText = linkText.Substring(linkText.IndexOf("<a href=\"") + "<a href=\"".Length);
@@ -219,6 +232,11 @@ namespace WowAddonUpdater
                     }
                 }
             }
+
+            if (cbCloseOnFinish.Checked)
+            {
+                Application.Exit();
+            }
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -243,7 +261,36 @@ namespace WowAddonUpdater
 
 
 
+        private void updateSaveDir()
+        {
+            List<string> settings = new List<string>();
+            if (File.Exists("settings.ini"))
+            {
+                StreamReader sr = new StreamReader("settings.ini");
+                string line = "";
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if (!line.Contains("ZipFileLocation"))
+                    {
+                        settings.Add(line);
+                    }
 
+
+                }
+                sr.Close();
+
+
+            }
+
+            settings.Add("{\"ZipFileLocation\" : \"" + Path.GetFullPath(tbSelectedFolder.Text).Replace('\\','/') + "\"  }");
+            File.Delete("settings.ini");
+            foreach (var item in settings)
+            {
+                StreamWriter sw = new StreamWriter("settings.ini", true);
+                sw.WriteLine(item);
+                sw.Close();
+            }
+        }
 
         private void tbSelectedFolder_Enter(object sender, EventArgs e)
         {
@@ -251,6 +298,8 @@ namespace WowAddonUpdater
             if (result == DialogResult.OK)
             {
                 tbSelectedFolder.Text = folderBrowserDialog1.SelectedPath;
+                updateSaveDir();
+
             }
         }
 
@@ -273,13 +322,75 @@ namespace WowAddonUpdater
 
         private void cbUpdateOnStart_CheckedChanged(object sender, EventArgs e)
         {
-            //UpdateOnStartup
-            string setting = ("{\"UpdateOnStartup\" : \"" + cbUpdateOnStart.Checked + "\"  }");
-            File.Delete("settings.ini");
+            List<string> settings = new List<string>();
+            if (File.Exists("settings.ini"))
+            {
+                StreamReader sr = new StreamReader("settings.ini");
+                string line = "";
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if (!line.Contains("UpdateOnStartup"))
+                    {
+                        settings.Add(line);
+                    }
 
-            StreamWriter sw = new StreamWriter("settings.ini", true);
-            sw.WriteLine(setting);
-            sw.Close();
+
+                }
+                sr.Close();
+
+               
+            }
+
+            settings.Add("{\"UpdateOnStartup\" : \"" + cbUpdateOnStart.Checked + "\"  }");
+            File.Delete("settings.ini");
+            foreach (var item in settings)
+            {
+                StreamWriter sw = new StreamWriter("settings.ini", true);
+                sw.WriteLine(item);
+                sw.Close();
+            }
+           
+        }
+
+        private void tbSelectedFolder_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tbSelectedFolder_Leave(object sender, EventArgs e)
+        {
+            updateSaveDir();
+        }
+
+        private void cbCloseOnFinish_CheckedChanged(object sender, EventArgs e)
+        {
+            List<string> settings = new List<string>();
+            if (File.Exists("settings.ini"))
+            {
+                StreamReader sr = new StreamReader("settings.ini");
+                string line = "";
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if (!line.Contains("CloseWhenDone"))
+                    {
+                        settings.Add(line);
+                    }
+
+
+                }
+                sr.Close();
+
+
+            }
+
+            settings.Add("{\"CloseWhenDone\" : \"" + cbCloseOnFinish.Checked + "\"  }");
+            File.Delete("settings.ini");
+            foreach (var item in settings)
+            {
+                StreamWriter sw = new StreamWriter("settings.ini", true);
+                sw.WriteLine(item);
+                sw.Close();
+            }
         }
 
 

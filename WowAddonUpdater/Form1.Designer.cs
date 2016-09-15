@@ -35,6 +35,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnAddAddon = new System.Windows.Forms.Button();
             this.cbUpdateOnStart = new System.Windows.Forms.CheckBox();
+            this.cbCloseOnFinish = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // btnUpdate
@@ -53,7 +54,9 @@
             this.tbSelectedFolder.Name = "tbSelectedFolder";
             this.tbSelectedFolder.Size = new System.Drawing.Size(358, 20);
             this.tbSelectedFolder.TabIndex = 1;
+            this.tbSelectedFolder.TextChanged += new System.EventHandler(this.tbSelectedFolder_TextChanged);
             this.tbSelectedFolder.Enter += new System.EventHandler(this.tbSelectedFolder_Enter);
+            this.tbSelectedFolder.Leave += new System.EventHandler(this.tbSelectedFolder_Leave);
             // 
             // label1
             // 
@@ -93,11 +96,23 @@
             this.cbUpdateOnStart.UseVisualStyleBackColor = true;
             this.cbUpdateOnStart.CheckedChanged += new System.EventHandler(this.cbUpdateOnStart_CheckedChanged);
             // 
+            // cbCloseOnFinish
+            // 
+            this.cbCloseOnFinish.AutoSize = true;
+            this.cbCloseOnFinish.Location = new System.Drawing.Point(808, 35);
+            this.cbCloseOnFinish.Name = "cbCloseOnFinish";
+            this.cbCloseOnFinish.Size = new System.Drawing.Size(113, 17);
+            this.cbCloseOnFinish.TabIndex = 6;
+            this.cbCloseOnFinish.Text = "Close When Done";
+            this.cbCloseOnFinish.UseVisualStyleBackColor = true;
+            this.cbCloseOnFinish.CheckedChanged += new System.EventHandler(this.cbCloseOnFinish_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(996, 556);
+            this.Controls.Add(this.cbCloseOnFinish);
             this.Controls.Add(this.cbUpdateOnStart);
             this.Controls.Add(this.btnAddAddon);
             this.Controls.Add(this.panel1);
@@ -120,6 +135,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnAddAddon;
         private System.Windows.Forms.CheckBox cbUpdateOnStart;
+        private System.Windows.Forms.CheckBox cbCloseOnFinish;
     }
 }
 
