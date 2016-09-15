@@ -34,13 +34,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnAddAddon = new System.Windows.Forms.Button();
+            this.cbUpdateOnStart = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(12, 340);
+            this.btnUpdate.Location = new System.Drawing.Point(55, 502);
             this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(132, 33);
+            this.btnUpdate.Size = new System.Drawing.Size(110, 32);
             this.btnUpdate.TabIndex = 0;
             this.btnUpdate.Text = "Update";
             this.btnUpdate.UseVisualStyleBackColor = true;
@@ -65,26 +66,39 @@
             // 
             // panel1
             // 
+            this.panel1.AutoScroll = true;
             this.panel1.Location = new System.Drawing.Point(55, 65);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(496, 187);
+            this.panel1.Size = new System.Drawing.Size(866, 402);
             this.panel1.TabIndex = 3;
             // 
             // btnAddAddon
             // 
-            this.btnAddAddon.Location = new System.Drawing.Point(462, 340);
+            this.btnAddAddon.Location = new System.Drawing.Point(811, 502);
             this.btnAddAddon.Name = "btnAddAddon";
-            this.btnAddAddon.Size = new System.Drawing.Size(89, 23);
+            this.btnAddAddon.Size = new System.Drawing.Size(110, 32);
             this.btnAddAddon.TabIndex = 4;
             this.btnAddAddon.Text = "Add Addon";
             this.btnAddAddon.UseVisualStyleBackColor = true;
             this.btnAddAddon.Click += new System.EventHandler(this.btnAddAddon_Click);
             // 
+            // cbUpdateOnStart
+            // 
+            this.cbUpdateOnStart.AutoSize = true;
+            this.cbUpdateOnStart.Location = new System.Drawing.Point(594, 36);
+            this.cbUpdateOnStart.Name = "cbUpdateOnStart";
+            this.cbUpdateOnStart.Size = new System.Drawing.Size(113, 17);
+            this.cbUpdateOnStart.TabIndex = 5;
+            this.cbUpdateOnStart.Text = "Update On startup";
+            this.cbUpdateOnStart.UseVisualStyleBackColor = true;
+            this.cbUpdateOnStart.CheckedChanged += new System.EventHandler(this.cbUpdateOnStart_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(615, 385);
+            this.ClientSize = new System.Drawing.Size(996, 556);
+            this.Controls.Add(this.cbUpdateOnStart);
             this.Controls.Add(this.btnAddAddon);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label1);
@@ -105,6 +119,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnAddAddon;
+        private System.Windows.Forms.CheckBox cbUpdateOnStart;
     }
 }
 
