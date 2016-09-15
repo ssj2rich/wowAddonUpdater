@@ -28,7 +28,7 @@ namespace WowAddonUpdater
             {
                 new Thread(delegate()
                 {
-                    updateAddon();
+                    updateAddon(tbSelectedFolder.Text);
                 }).Start();
             }
         }
@@ -65,7 +65,7 @@ namespace WowAddonUpdater
                         string isCloseWhenDone = dy.CloseWhenDone;
                         cbCloseOnFinish.Checked = Convert.ToBoolean(isCloseWhenDone);
                     }
-                    
+
                 }
             }
 
@@ -99,7 +99,7 @@ namespace WowAddonUpdater
                 add1.tbAddonUrl.Text = dy.AddonUrl;
                 add1.btnUpdateAddon.Text = "Update";
                 panel1.Controls.Add(add1);
-                locationY = add1.Location.Y + 55;
+                locationY = add1.Location.Y + 65;
                 add1.LabelsTextChanged += add1_LabelsTextChanged;
                 add1.updateName();
             }
@@ -115,7 +115,7 @@ namespace WowAddonUpdater
         //    loadAddons();
         //}
 
-        private void updateAddon()
+        private void updateAddon(string selectedFolder)
         {
 
             List<string> addons = new List<string>();
@@ -144,7 +144,8 @@ namespace WowAddonUpdater
                     var res = panel1.Controls.Find((string)dy.AddonName, true);
                     var con = (AddOn)res[0];
                     con.pbStatus.Image = WowAddonUpdater.Properties.Resources.Updating;
-
+                    //con.lblStatus.Text = "Updating addon";
+                    con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Updating addon"));
                     string url = dy.AddonUrl;
                     if (url.Contains("wowace"))
                     {
@@ -164,25 +165,40 @@ namespace WowAddonUpdater
                         using (var client = new WebClient())
                         {
 
-                            if (string.IsNullOrEmpty(tbSelectedFolder.Text))
+                            if (string.IsNullOrEmpty(selectedFolder))
                             {
+                                con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Download folder was not found using exe folder"));
                                 if (!File.Exists(Directory.GetCurrentDirectory() + "\\" + fileName))
                                 {
                                     client.DownloadFile(temp, Directory.GetCurrentDirectory() + "\\" + fileName);
 
                                     //mark as downloaded
+                                    con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Downloaded new file : " + fileName));
                                 }
                                 else
                                 {// old file, dont update
-
+                                    con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Current file is up to date : " + fileName));
                                 }
                                 con.pbStatus.Image = WowAddonUpdater.Properties.Resources.tick_64;
                             }
                             else
                             {
+                                con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Downloading  : " + selectedFolder + "\\" + fileName));
 
+                                if (!File.Exists(selectedFolder + "\\" + fileName))
+                                {
+                                    client.DownloadFile(temp, selectedFolder + "\\" + fileName);
+
+                                    //mark as downloaded
+                                    con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Downloaded new file : " + fileName));
+                                }
+                                else
+                                {// old file, dont update
+                                    con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Current file is up to date : " + fileName));
+                                }
+                                con.pbStatus.Image = WowAddonUpdater.Properties.Resources.tick_64;
                             }
-                            client.DownloadFile(temp, tbSelectedFolder.Text + "\\" + fileName);
+                           
                         }
                     }
                     else if (url.Contains(""))
@@ -201,17 +217,37 @@ namespace WowAddonUpdater
                         using (var client = new WebClient())
                         {
 
-                            if (string.IsNullOrEmpty(tbSelectedFolder.Text))
+                            if (string.IsNullOrEmpty(selectedFolder))
                             {
-
-                                client.DownloadFile(temp, Directory.GetCurrentDirectory() + "\\" + fileName);
+                                con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Download folder was not found using exe folder"));
+                                if (!File.Exists(Directory.GetCurrentDirectory() + "\\" + fileName))
+                                {
+                                    client.DownloadFile(temp, Directory.GetCurrentDirectory() + "\\" + fileName);
+                                    con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Downloaded new file : " + fileName));
+                                }
+                                else
+                                {
+                                    con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Current file is up to date : " + fileName));
+                                }
                             }
                             else
                             {
+                                con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Downloading  : " + selectedFolder + "\\" + fileName));
+                                if (!File.Exists(selectedFolder + "\\" + fileName))
+                                {
+                                    client.DownloadFile(temp, selectedFolder + "\\" + fileName);
 
+                                    //mark as downloaded
+                                    con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Downloaded new file : " + fileName));
+                                }
+                                else
+                                {// old file, dont update
+                                    con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Current file is up to date : " + fileName));
+                                }
+                                con.pbStatus.Image = WowAddonUpdater.Properties.Resources.tick_64;
                             }
                             con.pbStatus.Image = WowAddonUpdater.Properties.Resources.tick_64;
-                            client.DownloadFile(temp, tbSelectedFolder.Text + "\\" + fileName);
+                            //client.DownloadFile(temp, selectedFolder + "\\" + fileName);
                         }
 
                     }
@@ -220,12 +256,11 @@ namespace WowAddonUpdater
                 {
                     try
                     {
-
-                    
-                    dynamic dy = JsonConvert.DeserializeObject(item);
-                    var res = panel1.Controls.Find((string)dy.AddonName, true);
-                    var con = (AddOn)res[0];
-                    con.pbStatus.Image = WowAddonUpdater.Properties.Resources.sign_warning_icon;
+                        dynamic dy = JsonConvert.DeserializeObject(item);
+                        var res = panel1.Controls.Find((string)dy.AddonName, true);
+                        var con = (AddOn)res[0];
+                        con.pbStatus.Image = WowAddonUpdater.Properties.Resources.sign_warning_icon;
+                        con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Error downloading : " + ex.Message));
                     }
                     catch (Exception)
                     {
@@ -243,7 +278,7 @@ namespace WowAddonUpdater
         {
             new Thread(delegate()
             {
-                updateAddon();
+                updateAddon(tbSelectedFolder.Text);
             }).Start();
 
         }
@@ -282,7 +317,7 @@ namespace WowAddonUpdater
 
             }
 
-            settings.Add("{\"ZipFileLocation\" : \"" + Path.GetFullPath(tbSelectedFolder.Text).Replace('\\','/') + "\"  }");
+            settings.Add("{\"ZipFileLocation\" : \"" + Path.GetFullPath(tbSelectedFolder.Text).Replace('\\', '/') + "\"  }");
             File.Delete("settings.ini");
             foreach (var item in settings)
             {
@@ -311,10 +346,11 @@ namespace WowAddonUpdater
             AddOn add1 = new AddOn();
             add1.Location = new Point(0, locationY);
             add1.btnUpdateAddon.Text = "Add";
+            add1.lblStatus.Text = "Please enter an addon name and addon url";
             panel1.Controls.Add(add1);
 
 
-            locationY = (panel1.Controls.Count * 55);
+            locationY = (panel1.Controls.Count * 65);
             panel1.VerticalScroll.Value = tempValue;
             add1.LabelsTextChanged += add1_LabelsTextChanged;
             add1.updateName();
@@ -338,7 +374,7 @@ namespace WowAddonUpdater
                 }
                 sr.Close();
 
-               
+
             }
 
             settings.Add("{\"UpdateOnStartup\" : \"" + cbUpdateOnStart.Checked + "\"  }");
@@ -349,7 +385,7 @@ namespace WowAddonUpdater
                 sw.WriteLine(item);
                 sw.Close();
             }
-           
+
         }
 
         private void tbSelectedFolder_TextChanged(object sender, EventArgs e)
