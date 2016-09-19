@@ -74,6 +74,7 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Images\close-map.png" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -84,6 +85,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Images\sign-warning-icon.png" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -99,14 +101,19 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Images\close-map.png" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Newtonsoft.Json.dll" />
     <EmbeddedResource Include="Newtonsoft.Json.xml" />
-    <None Include="Images\sign-warning-icon.png" />
-    <Content Include="Images\tick_64.png" />
-    <Content Include="Images\Updating.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\add.png" />
+    <EmbeddedResource Include="Images\addPressed.png" />
+    <EmbeddedResource Include="Images\icon_like.png" />
+    <EmbeddedResource Include="Images\tick_64.png" />
+    <EmbeddedResource Include="Images\update.gif" />
+    <EmbeddedResource Include="Images\Update.png" />
+    <EmbeddedResource Include="Images\updatePressed.png" />
+    <EmbeddedResource Include="Images\Updating.gif" />
+    <EmbeddedResource Include="Images\world-warcraft-app.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

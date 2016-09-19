@@ -31,9 +31,9 @@
             this.tbAddonName = new System.Windows.Forms.TextBox();
             this.tbAddonUrl = new System.Windows.Forms.TextBox();
             this.btnUpdateAddon = new System.Windows.Forms.Button();
+            this.lblStatus = new System.Windows.Forms.Label();
             this.pbStatus = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.lblStatus = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbStatus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -64,6 +64,14 @@
             this.btnUpdateAddon.UseVisualStyleBackColor = true;
             this.btnUpdateAddon.Click += new System.EventHandler(this.btnUpdateAddon_Click);
             // 
+            // lblStatus
+            // 
+            this.lblStatus.AutoSize = true;
+            this.lblStatus.Location = new System.Drawing.Point(48, 41);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(0, 13);
+            this.lblStatus.TabIndex = 6;
+            // 
             // pbStatus
             // 
             this.pbStatus.AccessibleDescription = "test";
@@ -86,19 +94,11 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
-            // lblStatus
-            // 
-            this.lblStatus.AutoSize = true;
-            this.lblStatus.Location = new System.Drawing.Point(48, 41);
-            this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(0, 13);
-            this.lblStatus.TabIndex = 6;
-            // 
             // AddOn
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.BackColor = System.Drawing.Color.SlateGray;
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.pbStatus);
             this.Controls.Add(this.pictureBox1);

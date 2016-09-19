@@ -170,16 +170,50 @@ namespace WowAddonUpdater
                                 con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Download folder was not found using exe folder"));
                                 if (!File.Exists(Directory.GetCurrentDirectory() + "\\" + fileName))
                                 {
+                                    string oldFileName = fileName.Split('-')[0];
+                                    string[] files = Directory.GetFiles(Directory.GetCurrentDirectory(), oldFileName + "*");
+                                    if (files.Length > 0)
+                                    {// found old file, move to old file dir
+                                        if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\old"))
+                                        {
+                                            Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\old");
+                                        }
+                                        foreach (var singleFile in files)
+                                        {
+                                            File.Move(singleFile, Directory.GetCurrentDirectory() + "\\old\\" + Path.GetFileName(singleFile));
+                                        }
+
+
+                                    }
+                                    else
+                                    {
+                                        oldFileName = fileName.Split('_')[0];
+                                        files = Directory.GetFiles(Directory.GetCurrentDirectory(), oldFileName + "*");
+                                        if (files.Length > 0)
+                                        {// found old file, move to old file dir
+                                            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\old"))
+                                            {
+                                                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\old");
+                                            }
+                                            foreach (var singleFile in files)
+                                            {
+                                                File.Move(singleFile, Directory.GetCurrentDirectory() + "\\old\\" + Path.GetFileName(singleFile));
+                                            }
+
+                                        }
+                                    }
+
                                     client.DownloadFile(temp, Directory.GetCurrentDirectory() + "\\" + fileName);
 
                                     //mark as downloaded
                                     con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Downloaded new file : " + fileName));
+                                    con.pbStatus.Image = WowAddonUpdater.Properties.Resources.tick_64;
                                 }
                                 else
                                 {// old file, dont update
                                     con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Current file is up to date : " + fileName));
+                                    con.pbStatus.Image = WowAddonUpdater.Properties.Resources.icon_like;
                                 }
-                                con.pbStatus.Image = WowAddonUpdater.Properties.Resources.tick_64;
                             }
                             else
                             {
@@ -187,18 +221,53 @@ namespace WowAddonUpdater
 
                                 if (!File.Exists(selectedFolder + "\\" + fileName))
                                 {
+
+                                    string oldFileName = fileName.Split('-')[0];
+                                    string[] files = Directory.GetFiles(selectedFolder, oldFileName + "*");
+                                    if (files.Length > 0)
+                                    {// found old file, move to old file dir
+                                        if (!Directory.Exists(selectedFolder + "\\old"))
+                                        {
+                                            Directory.CreateDirectory(selectedFolder + "\\old");
+                                        }
+                                        foreach (var singleFile in files)
+                                        {
+                                            File.Move(singleFile, selectedFolder + "\\old\\" + Path.GetFileName(singleFile));
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        oldFileName = fileName.Split('_')[0];
+                                        files = Directory.GetFiles(selectedFolder, oldFileName + "*");
+                                        if (files.Length > 0)
+                                        {// found old file, move to old file dir
+                                            if (!Directory.Exists(selectedFolder + "\\old"))
+                                            {
+                                                Directory.CreateDirectory(selectedFolder + "\\old");
+                                            }
+                                            foreach (var singleFile in files)
+                                            {
+                                                File.Move(singleFile, selectedFolder + "\\old\\" + Path.GetFileName(singleFile));
+                                            }
+
+                                        }
+                                    }
+
                                     client.DownloadFile(temp, selectedFolder + "\\" + fileName);
 
                                     //mark as downloaded
                                     con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Downloaded new file : " + fileName));
+                                    con.pbStatus.Image = WowAddonUpdater.Properties.Resources.tick_64;
                                 }
                                 else
                                 {// old file, dont update
                                     con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Current file is up to date : " + fileName));
+                                    con.pbStatus.Image = WowAddonUpdater.Properties.Resources.icon_like;
                                 }
-                                con.pbStatus.Image = WowAddonUpdater.Properties.Resources.tick_64;
+
                             }
-                           
+
                         }
                     }
                     else if (url.Contains(""))
@@ -219,15 +288,52 @@ namespace WowAddonUpdater
 
                             if (string.IsNullOrEmpty(selectedFolder))
                             {
+                                
+
                                 con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Download folder was not found using exe folder"));
                                 if (!File.Exists(Directory.GetCurrentDirectory() + "\\" + fileName))
                                 {
+                                    string oldFileName = fileName.Split('-')[0];
+                                    string[] files = Directory.GetFiles(Directory.GetCurrentDirectory(), oldFileName + "*");
+                                    if (files.Length > 0)
+                                    {// found old file, move to old file dir
+                                        if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\old"))
+                                        {
+                                            Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\old");
+                                        }
+                                        foreach (var singleFile in files)
+                                        {
+                                            File.Move(singleFile, Directory.GetCurrentDirectory() + "\\old\\" + Path.GetFileName(singleFile));
+                                        }
+
+
+                                    }
+                                    else
+                                    {
+                                        oldFileName = fileName.Split('_')[0];
+                                        files = Directory.GetFiles(Directory.GetCurrentDirectory(), oldFileName + "*");
+                                        if (files.Length > 0)
+                                        {// found old file, move to old file dir
+                                            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\old"))
+                                            {
+                                                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\old");
+                                            }
+                                            foreach (var singleFile in files)
+                                            {
+                                                File.Move(singleFile, Directory.GetCurrentDirectory() + "\\old\\" + Path.GetFileName(singleFile));
+                                            }
+
+                                        }
+                                    }
+
                                     client.DownloadFile(temp, Directory.GetCurrentDirectory() + "\\" + fileName);
                                     con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Downloaded new file : " + fileName));
+                                    con.pbStatus.Image = WowAddonUpdater.Properties.Resources.tick_64;
                                 }
                                 else
                                 {
                                     con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Current file is up to date : " + fileName));
+                                    con.pbStatus.Image = WowAddonUpdater.Properties.Resources.icon_like;
                                 }
                             }
                             else
@@ -235,18 +341,51 @@ namespace WowAddonUpdater
                                 con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Downloading  : " + selectedFolder + "\\" + fileName));
                                 if (!File.Exists(selectedFolder + "\\" + fileName))
                                 {
+                                    string oldFileName = fileName.Split('-')[0];
+                                    string[] files = Directory.GetFiles(selectedFolder, oldFileName + "*");
+                                    if (files.Length > 0)
+                                    {// found old file, move to old file dir
+                                        if (!Directory.Exists(selectedFolder + "\\old"))
+                                        {
+                                            Directory.CreateDirectory(selectedFolder + "\\old");
+                                        }
+                                        foreach (var singleFile in files)
+                                        {
+                                            File.Move(singleFile, selectedFolder + "\\old\\" + Path.GetFileName(singleFile));
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        oldFileName = fileName.Split('_')[0];
+                                        files = Directory.GetFiles(selectedFolder, oldFileName + "*");
+                                        if (files.Length > 0)
+                                        {// found old file, move to old file dir
+                                            if (!Directory.Exists(selectedFolder + "\\old"))
+                                            {
+                                                Directory.CreateDirectory(selectedFolder + "\\old");
+                                            }
+                                            foreach (var singleFile in files)
+                                            {
+                                                File.Move(singleFile, selectedFolder + "\\old\\" + Path.GetFileName(singleFile));
+                                            }
+
+                                        }
+                                    }
                                     client.DownloadFile(temp, selectedFolder + "\\" + fileName);
 
                                     //mark as downloaded
                                     con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Downloaded new file : " + fileName));
+                                    con.pbStatus.Image = WowAddonUpdater.Properties.Resources.tick_64;
                                 }
                                 else
                                 {// old file, dont update
                                     con.lblStatus.Invoke((Action)(() => con.lblStatus.Text = "Current file is up to date : " + fileName));
+                                    con.pbStatus.Image = WowAddonUpdater.Properties.Resources.icon_like;
                                 }
-                                con.pbStatus.Image = WowAddonUpdater.Properties.Resources.tick_64;
+
                             }
-                            con.pbStatus.Image = WowAddonUpdater.Properties.Resources.tick_64;
+
                             //client.DownloadFile(temp, selectedFolder + "\\" + fileName);
                         }
 
@@ -427,6 +566,26 @@ namespace WowAddonUpdater
                 sw.WriteLine(item);
                 sw.Close();
             }
+        }
+
+        private void btnUpdate_MouseHover(object sender, EventArgs e)
+        {
+            btnUpdate.Image = WowAddonUpdater.Properties.Resources.updatePressed;
+        }
+
+        private void btnUpdate_MouseLeave(object sender, EventArgs e)
+        {
+            btnUpdate.Image = WowAddonUpdater.Properties.Resources.Update;
+        }
+
+        private void btnAddAddon_MouseEnter(object sender, EventArgs e)
+        {
+            btnAddAddon.Image = WowAddonUpdater.Properties.Resources.addPressed;
+        }
+
+        private void btnAddAddon_MouseLeave(object sender, EventArgs e)
+        {
+            btnAddAddon.Image = WowAddonUpdater.Properties.Resources.add;
         }
 
 
