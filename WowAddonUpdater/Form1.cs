@@ -151,16 +151,34 @@ namespace WowAddonUpdater
                     {
 
 
+                        //string addonSiteUrl = url;//"https://www.wowace.com/addons/shadowed-unit-frames/"; //"https://mods.curse.com/addons/wow/shadowed-unit-frames";
+                        //string addonSiteText = GetWebText(addonSiteUrl);
+                        //string linkText = addonSiteText.Substring(addonSiteText.IndexOf("Recent files"), 400);
+                        //linkText = linkText.Substring(linkText.IndexOf("<a href=\"") + 9);
+                        //string temp = linkText.Substring(0, linkText.IndexOf(">") - 2);
+                        ////user-action-download
+                        //addonSiteText = GetWebText("https://www.wowace.com" + temp);
+                        //linkText = addonSiteText.Substring(addonSiteText.IndexOf("user-action-download"), 400);
+                        //temp = linkText.Substring(linkText.IndexOf("<a href=\"") + 9, linkText.IndexOf(">Download") - linkText.IndexOf("<a href=\"") - 10);
+                        //string fileName = temp.Split('/')[temp.Split('/').Length - 1];
+
                         string addonSiteUrl = url;//"https://www.wowace.com/addons/shadowed-unit-frames/"; //"https://mods.curse.com/addons/wow/shadowed-unit-frames";
-                        string addonSiteText = GetWebText(addonSiteUrl);
-                        string linkText = addonSiteText.Substring(addonSiteText.IndexOf("Recent files"), 400);
-                        linkText = linkText.Substring(linkText.IndexOf("<a href=\"") + 9);
-                        string temp = linkText.Substring(0, linkText.IndexOf(">") - 2);
-                        //user-action-download
-                        addonSiteText = GetWebText("https://www.wowace.com" + temp);
-                        linkText = addonSiteText.Substring(addonSiteText.IndexOf("user-action-download"), 400);
-                        temp = linkText.Substring(linkText.IndexOf("<a href=\"") + 9, linkText.IndexOf(">Download") - linkText.IndexOf("<a href=\"") - 10);
-                        string fileName = temp.Split('/')[temp.Split('/').Length - 1];
+                        string addonSiteText = GetWebText(addonSiteUrl + "/files");
+                        string linkText = addonSiteText.Substring(addonSiteText.ToLower().IndexOf("project-file-download-button"), addonSiteText.Length - 10 - addonSiteText.ToLower().IndexOf("project-file-download-button"));
+                        linkText = linkText.Substring(linkText.IndexOf("href=\"") + 6);
+                        string temp = linkText.Substring(0, linkText.IndexOf("\" title"));
+                        string fileName = temp.Remove(0, "/projects/".Length).Split('/')[0];
+                        temp = "https://www.wowace.com" + temp;
+                        //linkText = addonSiteText.Substring(addonSiteText.IndexOf("<dt>Filename</dt>"), 400);
+                        // linkText = linkText.Substring(linkText.IndexOf("<a href=\"") + "<a href=\"".Length);
+                        //temp = linkText.Substring(0, linkText.IndexOf(">") - linkText.IndexOf("<a href=\"") - 2);
+                        //\"overflow-tip\" href=\"
+                        string version = addonSiteText.Substring(addonSiteText.ToLower().IndexOf("\"overflow-tip\" href=\""), addonSiteText.Length - 10 - addonSiteText.ToLower().IndexOf("\"overflow-tip\" href=\""));
+                        version = version.Substring(version.IndexOf(">"), 100);
+                        version = version.Substring(0, version.IndexOf("<"));
+                        version = version.Replace('>', '-');
+                        version += ".zip";
+                        fileName += version;
 
                         using (var client = new WebClient())
                         {
@@ -273,16 +291,22 @@ namespace WowAddonUpdater
                     else if (url.Contains(""))
                     {
                         string addonSiteUrl = url;//"https://wow.curseforge.com/addons/big-wigs/"; //"https://mods.curse.com/addons/wow/shadowed-unit-frames";
-                        string addonSiteText = GetWebText(addonSiteUrl);
-                        string linkText = addonSiteText.Substring(addonSiteText.IndexOf("Recent files"), 400);
-                        linkText = linkText.Substring(linkText.IndexOf("<a href=\"") + 9);
-                        string temp = linkText.Substring(0, linkText.IndexOf(">") - 2);
-                        addonSiteText = GetWebText("https://wow.curseforge.com" + temp);
-                        linkText = addonSiteText.Substring(addonSiteText.IndexOf("<dt>Filename</dt>"), 400);
-                        linkText = linkText.Substring(linkText.IndexOf("<a href=\"") + "<a href=\"".Length);
-                        temp = linkText.Substring(0, linkText.IndexOf(">") - linkText.IndexOf("<a href=\"") - 2);
-                        string fileName = temp.Split('/')[temp.Split('/').Length - 1];
-
+                        string addonSiteText = GetWebText(addonSiteUrl + "/files");
+                        string linkText = addonSiteText.Substring(addonSiteText.ToLower().IndexOf("project-file-download-button"), addonSiteText.Length - 10 - addonSiteText.ToLower().IndexOf("project-file-download-button"));
+                        linkText = linkText.Substring(linkText.IndexOf("href=\"") + 6);
+                        string temp = linkText.Substring(0, linkText.IndexOf("\" title"));
+                        string fileName = temp.Remove(0, "/projects/".Length).Split('/')[0];
+                        temp = "https://wow.curseforge.com" + temp;
+                        //linkText = addonSiteText.Substring(addonSiteText.IndexOf("<dt>Filename</dt>"), 400);
+                       // linkText = linkText.Substring(linkText.IndexOf("<a href=\"") + "<a href=\"".Length);
+                        //temp = linkText.Substring(0, linkText.IndexOf(">") - linkText.IndexOf("<a href=\"") - 2);
+                        //\"overflow-tip\" href=\"
+                        string version = addonSiteText.Substring(addonSiteText.ToLower().IndexOf("\"overflow-tip\" href=\""), addonSiteText.Length - 10 - addonSiteText.ToLower().IndexOf("\"overflow-tip\" href=\""));
+                        version = version.Substring(version.IndexOf(">"), 100);
+                        version = version.Substring(0, version.IndexOf("<"));
+                        version = version.Replace('>', '-');
+                        version += ".zip";
+                        fileName += version;
                         using (var client = new WebClient())
                         {
 
